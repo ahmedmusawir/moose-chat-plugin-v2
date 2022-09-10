@@ -1,0 +1,12 @@
+/*=============================
+=            GLOBALS            =
+=============================*/
+@import 'global';
+@import 'custom';
+
+#REACT-PLUGIN-APP {
+  min-height: 400px;
+  width: 100%;
+  border: 5px dotted blue;
+  padding: 1rem;
+}
