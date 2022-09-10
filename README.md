@@ -7,7 +7,7 @@ This is a Direct Messaging based Chat system based on Chat Engine.
 
 `[moose_chat_v2]`
 
-## This plugin use the Moose Plugin Framework which is equipped with:
+## This plugin uses the Moose Plugin Framework which is equipped with:
 
 - Gulp.js
 - React.js
