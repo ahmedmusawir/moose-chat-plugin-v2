@@ -43,7 +43,7 @@
 <main class="MOOSE-CHAT-SHORTCODE">
 
   <?php
-   include plugin_dir_path(__FILE__) . 'views/moose-chat-v1-view.php';
+   include plugin_dir_path(__FILE__) . 'views/moose-chat-v2-view.php';
    ?>
 
 </main>

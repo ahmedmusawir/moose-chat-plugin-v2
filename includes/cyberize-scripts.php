@@ -47,15 +47,32 @@ add_action('wp_enqueue_scripts',
 
   $current_user = wp_get_current_user();
   // $current_user_name  = $current_user->user_firstname . $current_user->user_lastname;
-  // $current_user_email = $current_user->user_email;
-  $current_user_name = $current_user->user_email;
+  // // $current_user_email = $current_user->user_email;
+  // $current_user_name = $current_user->user_email;
+
+  // wp_localize_script(, 'mooseData', array(
+  //  'root_url'          => get_site_url(),
+  //  'ajax_url'          => admin_url('admin-ajax.php'),
+  //  'nonce'             => wp_create_nonce('wp_rest'),
+  //  'currentWPUserName' => $current_user_name
+  //   'currentWPUserEmail' => $current_user_email
+  // ));
+
+  // CHECKING IF CURRENT USER IS A SUBSCRIBER ONLY
+  if (in_array('subscriber', $current_user->roles)) {
+
+   $current_user_email     = $current_user->user_email;
+   $current_user_firstname = $current_user->user_firstname;
+   $current_user_lastname  = $current_user->user_lastname;
+  }
 
   wp_localize_script(MOOSE_CHAT_V2_FRONTEND_SCRIPT_ID, 'mooseData', array(
-   'root_url'          => get_site_url(),
-   'ajax_url'          => admin_url('admin-ajax.php'),
-   'nonce'             => wp_create_nonce('wp_rest'),
-   'currentWPUserName' => $current_user_name
-   //  'currentWPUserEmail' => $current_user_email
+   'root_url'               => get_site_url(),
+   'ajax_url'               => admin_url('admin-ajax.php'),
+   'nonce'                  => wp_create_nonce('wp_rest'),
+   'currentWPUserEmail'     => $current_user_email,
+   'currentWPUserFirstName' => $current_user_firstname,
+   'currentWPUserLastName'  => $current_user_lastname
   ));
 
   /* THIS SCRIPT ONLY LOADS ON WP FRONTEND FOR SINGLE BLOG POST OR CPT SINGLE ONLY */

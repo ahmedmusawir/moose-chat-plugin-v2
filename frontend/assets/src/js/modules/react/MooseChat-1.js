@@ -1,85 +1,73 @@
 import React, { useState, useEffect } from 'react';
 import { ChatEngine, getOrCreateChat } from 'react-chat-engine';
-import ReactAppThemeOne from './ReactAppThemeOne';
 import axios from 'axios';
+import ChatUserSearch from './components/chat/ChatUserSearch';
 
 const MooseChat = (props) => {
+  const params = new URLSearchParams(window.location.search);
+  console.log('URL UserName: ', params.get('username'));
+  const listingMember = params.get('username');
+
   //COLLECTING CURRENT USER FROM GLOBAL
-  const currentUser = mooseData.currentWPUserName;
-  const currentUserEmail = mooseData.currentWPUserEmail;
+  const currentUser = mooseData.currentWPUserName; // This is the current WP users email address
   const [username, setUsername] = useState('');
   const [secret, setSecret] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const loggedInWPUser = {
     username: currentUser,
-    secret: currentUserEmail,
   };
+
+  console.log('Logged in as: ', loggedInWPUser);
 
   useEffect(() => {
-    async function getOrCreateWPUser() {
-      await createUser(loggedInWPUser);
-
-      // window.location.reload();
-    }
-
-    getOrCreateWPUser();
-  }, []);
-
-  const createUser = async (user) => {
-    // put IS FOR GET OR CREATE ACCORDING TO DOC
-    await axios
-      .put('https://api.chatengine.io/users/', user, {
-        headers: { 'Private-Key': '37d9cc64-75a2-41e0-94d9-61a0c9c29750' },
+    axios
+      .get('https://api.chatengine.io/users/me', {
+        headers: {
+          'project-id': '4ca132ec-0f15-4b96-9cb4-a62d31066802',
+          'user-name': currentUser,
+          'user-secret': 'pass1234',
+        },
       })
-      .then((r) => console.log('get or create user', r))
-      .catch((e) => console.log('get or create error', e));
-  };
+      .then(() => {
+        console.log('User found and Chat started...');
+        setLoading(false);
+      })
+      .catch(() => {
+        axios
+          .post('https://api.chatengine.io/users', loggedInWPUser, {
+            headers: {
+              'private-key': '37d9cc64-75a2-41e0-94d9-61a0c9c29750',
+            },
+          })
+          .then(() => {
+            setLoading(false);
+            window.location.reload();
+          })
+          .catch((error) =>
+            console.log('Cannot Create Chat User in API', error)
+          );
+      });
+  }, [currentUser]);
 
   function createDirectChat(creds) {
-    const user = {
-      username: username,
-      secret: 'pass1234',
-      // first_name: 'Adam',
-      // last_name: 'La Morre',
-      // custom_json: { high_score: 2000 },
-    };
-    createUser(user);
-
-    getOrCreateChat(
-      creds,
-      { is_direct_chat: true, usernames: [username] },
-      () => setUsername('')
-    );
-    // getOrCreateChat(creds, { is_direct_chat: true, usernames: ['Rico'] }, () =>
-    //   setUsername('')
-    // );
-  }
-
-  function renderChatForm(creds) {
-    return (
-      <div>
-        <input
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <button onClick={() => createDirectChat(creds)}>Create</button>
-      </div>
-    );
+    if (listingMember) {
+      getOrCreateChat(
+        creds,
+        { is_direct_chat: true, usernames: [listingMember] }
+        // () => setUsername(listingMember)
+      );
+    }
   }
 
   return (
     <ChatEngine
       height="60vh"
-      width="100vw"
-      projectID="98d9a7a2-3755-4354-a63f-a9165641e131"
+      projectID="4ca132ec-0f15-4b96-9cb4-a62d31066802"
       userName={currentUser}
-      userSecret={currentUserEmail}
-      renderNewChatForm={(creds) => renderChatForm(creds)} // This is for DM from the Chat page
-      // userName="odesk.shourav@gmail.com"
-      // userSecret="odesk.shourav@gmail.com"
-      // renderNewChatForm={(creds) => createDirectChat(creds)} // This is for starting DM on page load
-      // renderChatSettings={(chatAppState) => {}}
+      userSecret="pass1234"
+      renderNewChatForm={(creds) => createDirectChat(creds)} // This is for starting DM on page load
+      renderChatSettings={(chatAppState) => <ChatUserSearch />}
     />
   );
 };

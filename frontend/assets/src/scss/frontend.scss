@@ -4,9 +4,127 @@
 @import 'global';
 @import 'custom';
 
-#REACT-PLUGIN-APP {
-  min-height: 400px;
-  width: 100%;
-  border: 5px dotted blue;
-  padding: 1rem;
+/*=============================
+=            FONTS            =
+=============================*/
+// @import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
+
+body {
+  // border: 5px dotted green;
+  font-family: Poppins, sans-serif;
+}
+
+.ce-chat-engine {
+  border: 1px solid red;
+  border-top: 4px solid red;
+
+  @media (max-width: 575px) {
+    .ce-wrapper {
+      flex-flow: row !important;
+    }
+  }
+}
+
+// LEFT COL: CHAT LIST COL
+
+.ce-chat-list-column {
+  border-right: 1px solid red;
+
+  .ce-chats-container {
+    font-family: Poppins, sans-serif;
+    .chat-list-header {
+      // border: 2px solid blue;
+      @media (max-width: 980px) {
+        font-size: 1rem !important;
+        margin-top: 10px !important;
+      }
+      @media (max-width: 655px) {
+        font-size: 1rem !important;
+        margin-top: -7px !important;
+      }
+    }
+
+    .ce-chat-card {
+      @media (max-width: 750px) {
+        .ce-chat-title-text {
+          font-size: 0.7rem;
+        }
+        .ce-chat-subtitle-text {
+          font-size: 0.6rem !important;
+        }
+      }
+    }
+
+    #dm-search-input {
+      border: 1px solid gray;
+      padding: 1.5rem 1rem;
+      margin: 0px auto;
+      width: 95%;
+      @media (max-width: 980px) {
+        width: 100%;
+        margin: 0 !important;
+      }
+    }
+  }
+}
+
+// MIDDLE COL: CHAT FEED COL
+
+.ce-chat-feed-column {
+  #ce-send-message-button {
+    background-color: #c60c30 !important;
+  }
+  .ce-chat-title-container {
+    background-color: black;
+    color: #e3e3e3 !important;
+    // margin-bottom: 1rem;
+  }
+  .ce-my-message-bubble {
+    // border: 1rem solid red;
+    background-color: #36454f !important;
+  }
+  @media (min-width: 575px) {
+    .anticon.anticon-menu {
+      display: none;
+    }
+    .anticon.anticon-setting {
+      display: none;
+    }
+  }
+}
+
+// RIGTH COL: CHAT SETTINGS COL
+
+.ce-settings-column {
+  border-left: 1px solid red;
+  // border-left: 1px solid #e3e3e3;
+  .chat-settings-desktop-header {
+    margin-top: 1rem;
+    font-weight: bold;
+    font-size: 1rem;
+
+    @media (max-width: 575px) {
+      border: 1rem dotted red;
+    }
+  }
+  .dm-settings-search-input {
+    border: 1px solid gray;
+    padding: 1.5rem 1rem;
+    margin: 0px auto;
+    width: 95%;
+    @media (max-width: 980px) {
+      width: 100%;
+      margin: 0 !important;
+    }
+  }
+  .dm-btn-user {
+    // border-top: 1px solid red;
+    box-shadow: 1px 1px 6px darken($color: #e3e3e3, $amount: 8%);
+    color: red;
+
+    @media (max-width: 750px) {
+      font-size: 0.8rem;
+    }
+  }
+  overflow: scroll;
 }
